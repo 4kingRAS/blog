@@ -3,7 +3,7 @@
 
 问题倒也不难，但是比较绕，记录一下。
 
-做的项目有用到 Spring data的分页器，本来应该在JpaReposity里就直接生成page的。但是情况特殊，有时候要转换现成的list来分页，于是我的需求是这样的：
+做的项目有用到 Spring data的分页器，本来应该在JpaReposity里就直接生成page的。但是情况特殊，有时候要转换现成的list来分页，于是我的需求是这样的：
 
 ```java
 List<User> ulist = userService.findAllUser();
@@ -23,10 +23,10 @@ size - the size of the page to be returned.
 很好，没毛病，page 0， size 5。
 >public PageImpl(List<T> content, Pageable pageable, long total)
 
-page的实现类，Constructor of PageImpl.乍看也没什么毛病，直接编译运行，页确实给我分了两页，index也是第0页，然而第0页却显示了9条！很烦，前端分页器的totalPages 和getNumber()都是对的，就是不明白为什么给分了整个list。
+page的实现类，Constructor of PageImpl.乍看也没什么毛病，直接编译运行，分页确实给我分了两页，index也是第0页，然而第0页却显示了9条！很烦，前端分页器的totalPages 和getNumber()都是对的，就是不明白为什么给分了整个list。
 
 首先，看源码：
-pageable的实现没什么问题，从运行结果看也不是什么问题,然后看pageimpl的：
+pageable的实现没什么问题，从运行结果看也不是什么问题,然后看pageimpl的：
 ```java
 	public PageImpl(List<T> content, Pageable pageable, long total) {
 
@@ -58,7 +58,7 @@ https://stackoverflow.com/questions/45740722/spring-data-page-gettotalelements-i
 ```
 考验英文阅读的细节了，再结合pageimpl的源码终于明白了，只是一场误会。
 
-springdata早期版本只是`this.total = total`, 后面为了解决最后一页显示条数的特殊性加了一些断言，`.map(it -> it.getOffset() + content.size())`先判断为不为空，然后判断offset，也就是当前page* page.size 大不大于total。大于说明是最后一页，然后会显示所传content的所有内容。
+springdata早期版本只是`this.total = total`, 后面为了解决最后一页显示条数的特殊性加了一些断言，`.map(it -> it.getOffset() + content.size())`先判断为不为空，然后判断offset，也就是当前page* page.size 大不大于total。大于说明是最后一页，会显示所传content的所有内容。
 
 **也就是说total确实是list.size()，但是content要传的是你这一页要显示的sublist！**
 
@@ -69,5 +69,5 @@ int end = (start + size) > list.size() ? list.size() : (start + size);//判断�
 Page<T> data = new PageImpl<>(list.subList(start, end), pageable, list.size());
 ```
 
-一不小心就糊涂了，还是得仔细看说明文档。但是这种设计也是够sb的，参数说明应该清楚一点啊
+一不小心就糊涂了，还是得仔细看说明文档。但是这种设计也是够sb的，参数说明应该清楚一点啊
 
