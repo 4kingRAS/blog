@@ -10,7 +10,7 @@ List<User> ulist = userService.findAllUser();
 Pageable pageable = PageRequest.of(0, 5, Sort.Direction.ASC,"id");
 Page<User> datas = new PageImpl<>(clist, pageable, clist.size());
 ```
-要传一个9个元素的list给page，page为第一页，每页5条。
+要传一个9个元素的list给page，page为第一页，每页5条。
 看一下doc：
 ```java
 public static PageRequest of(int page,int size,Sort.Direction direction,String... properties)
@@ -38,7 +38,7 @@ pageable的实现没什么问题，从运行结果看也不是什么问题,然�
 				.orElse(total);
 	}
 ```
-看了下注释，total是总数啊，虽然不明白这些断言是什么。。
+看了下注释，total是总数啊，虽然不明白这些断言是什么。。
 
 https://stackoverflow.com/questions/26720768/spring-data-pageimpl-not-returning-page-with-the-correct-size
 
