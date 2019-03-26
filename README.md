@@ -9,9 +9,12 @@
 
 ---
 ### 2019年
-
+* [记录spring data pager的小坑](./2019/spring-data-pager.md)
+* [SpringBoot+hibernate+Thymeleaf项目（1）](./2019/spring-hibernate-thymeleaf-1.md)
 
 ### 2018年
-
-
+* [atom配置Pascal开发环境](./2018/atom-config-fpc.md)
+* [一些思考](./2018/november-idea.md)
+* [不断前进](./2018/new-or-die.md)
+* [2018年TI杯电赛记录](./2018/2018ti-nuedc.md)
 
