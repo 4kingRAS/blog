@@ -2,10 +2,10 @@
 *在海航的IT部门短暂实习一个月，给的任务是一个数据库小项目，后台前端都要做。虽然比较低端，但也是一个后端程序员的基础，花一个月时间是值得的。用Springboot技术栈完成。这里记录一下流程和遇到的大坑小坑*
 
 ### 1 - 开发环境部署
-&emsp;&emsp;首先java项目最好还是用IDEA全家桶，方便，自动化程度高。Springboot的方便之处就在于简化了各种配置，让你专心写CRUD，集成了tomcat，最后生成jar包，而不用手动打包。
+&emsp;&emsp;首先java项目最好还是用IDEA全家桶，方便，自动化程度高。Springboot的方便之处就在于简化了各种配置，让你专心写CRUD，集成了tomcat，最后生成jar包，而不用手动打包。
 
-&emsp;&emsp;开发前，准备好需要的文档，还是得看官方文档，但是官方文档直接看很头疼，比较好的方式是看其他人的博客教程，然后对照着官方文档看。官方推荐做法也不一定是最好的，比如security推荐角色权限写死在后台，就很不灵活。不一定跟他一样。
-[Springboot Reference](https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE/reference/htmlsingle/#getting-started-system-requirements)
+&emsp;&emsp;开发前，准备好需要的文档，还是得看官方文档，但是官方文档直接看很头疼，比较好的方式是看其他人的博客教程，然后对照着官方文档看。官方推荐做法也不一定是最好的，比如security推荐角色权限写死在后台，就很不灵活。不一定跟他一样。
+[Springboot Reference](https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE/reference/htmlsingle/#getting-started-system-requirements)
 
 &emsp;&emsp;用IDEA全家桶很简单，直接spring initializer生成springboot的项目就行，在项目依赖勾选需要的组件， jpa，security等等。
 或者直接在maven里配置：
@@ -40,8 +40,8 @@
     <scope>runtime</scope>
 </dependency>
 ```
-&emsp;&emsp;然后配置数据库，很简单，参考官方教程，我这里是用hibernate操作数据库，国内一般喜欢mysql+mybatis。
-[Accessing data with mysql](https://spring.io/guides/gs/accessing-data-mysql/)
+&emsp;&emsp;然后配置数据库，很简单，参考官方教程，我这里是用hibernate操作数据库，国内一般喜欢mysql+mybatis。
+[Accessing data with mysql](https://spring.io/guides/gs/accessing-data-mysql/)
 照着此教程一路做下去即可，没什么问题。
 
 ```java
@@ -62,7 +62,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/db_supply?useUnicode=true&char
 ### 2 - MVC结构搭建
 
 &emsp;&emsp;首先搭建数据库，然后建好实体类。实体类对应的DAO,DAO最好再对应一个Service,扩展性更好，但也更啰嗦。看自己取舍。
-
+
 最后的结构大概就是这样：
 ```
 controller:
@@ -88,7 +88,7 @@ public interface UserDAO extends JpaRepository<User, Integer> {
 
 ```java
 @Entity 
-//@Tabel(name = 'User')如果类名与表名不一致才需要注解 
+//@Tabel(name = 'User')如果类名与表名不一致才需要注解 
 public class User implements Serializable {
  
     // GenerationType： identity每个表独立自增id
@@ -99,17 +99,17 @@ public class User implements Serializable {
     private Integer id;
 
     @NotEmpty(message = "invalid username") 
-    // notempty只对字符串有用 NotNull可检查int等
+    // notempty只对字符串有用 NotNull可检查int等
     @Column(name = "user_name", length = 20, nullable = false) // 字段长度
     private String username;
     //.....
 }
 ```
 
-关于Controller注解：
+关于Controller注解：
 
 &emsp;&emsp;@RestController是@ResponseBody和@Controller的组合注解
-@Controller 需要返回相应的html模版
+@Controller 需要返回相应的html模版
 如果需要返回json，比如下面的带参数返回就需要注解@ResponseBody
 
 ```java
