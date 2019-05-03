@@ -7,16 +7,48 @@
 Principle(User), Authority(Role)和Permission是Spring Security的3个核心概念。
 跟通常理解上Role和Permission之间一对多的关系不同，在Spring Security中，Authority和Permission是两个完全独立的概念，两者并没有必然的联系，但可以通过配置进行关联。
 
+ROLE即角色，比如管理员和员工，但是Spring security中并没有多个操作权限对应角色这样的关系，需要注意。不过我们可以自己设置这种一对多的关系，后文举例介绍怎么设置角色与权限。
 
 应用级别的安全主要分为“验证( authentication) ”和“(授权) authorization ”两个部分。
 
-这也是Spring Security主要需要处理的两个部分：
-在Spring Security中，认证过程称之为Authentication(验证)，指的是建立系统使用者信息( principal )的过程。使用者可以是一个用户、设备、或者其他可以在我们的应用中执行某种操作的其他系统。
-" Authorization "指的是判断某个 principal 在我们的应用是否允许执行某个操作。在 进行授权判断之前，要求其所要使用到的规则必须在验证过程中已经建立好了。
-这些概念是通用的，并不是只针对"Spring Security"。
+authentication 即验证使用者的身份`principal`,authorization则是根据身份查询到其具有的ROLE，可以是多个ROLE，以进行拦截操作。
 
+**简单来说我们需要一个角色表，一个WebConfig确定权限逻辑，一个UserDetail验证登录**
 
 ### 2 - 角色：权限对照表
+---
 
-### 3 - UserDetail，WebSecurityConfig配置
-### 4 - 实现登录页面
+User表：
+|用户名|密码|角色|
+|---|---|---|
+|user|password|role
+
+Role表：
+|角色|权限描述|
+|---|---|
+|role|description|
+
+如果不需要一对多，上面的就足够了，如果需要一对多，那么要加一个权限表，以及索引表。
+User表：
+|index|角色|权限|
+|---|---|---|
+|id|role|permission|
+
+*根据索引查找角色具有的权限*
+Permission表：
+|权限|权限描述|
+|---|---|
+|permission|description|
+
+
+### 3 - Spring Security 项目结构
+---
+对于Servlet Application：
+
+### 4 - UserDetail，WebSecurityConfig配置
+---
+
+
+### 5 - 实现登录页面
+---
+
