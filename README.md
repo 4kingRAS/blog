@@ -9,6 +9,8 @@
 
 ---
 ### 2019年
+* [Mac安装intel power gadget后无法开机](./2019/mac-cant-reboot-driver.md)
+* [纪念五四运动一百周年](./2019/may-4th-100th-anniversary.md)
 * [SpringBoot学习 - Spring Security（2）](./2019/springboot-h-t-2.md)
 * [最好的学习时代](./2019/best-study.md)
 * [记录spring data pager的小坑](./2019/spring-data-pager.md)
