@@ -9,6 +9,7 @@
 
 ---
 ### 2019年
+* [Google thanos手套彩蛋效果](./2019/google-thanos-gauntlet.md)
 * [Mac安装intel power gadget后无法开机](./2019/mac-cant-reboot-driver.md)
 * [纪念五四运动一百周年](./2019/may-4th-100th-anniversary.md)
 * [SpringBoot学习 - Spring Security（2）](./2019/springboot-h-t-2.md)
