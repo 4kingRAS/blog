@@ -112,7 +112,9 @@ function init() {
         
         animationImage(canvas, "./images/thanos_snap.png", res => {
             gauntlet.removeChild(canvas)  
+            //动画完成后清除手套snap的canvas
             for (let i = 0; i < node.length; i++) createCanvas(i)
+            //创建结果消失动画
         })
 
     }
@@ -120,5 +122,77 @@ function init() {
 ```
 
 ## 手套动画原理
+
+Google的方法是利用了48帧合成的一张[Sprite图](https://zh.wikipedia.org/wiki/%E7%B2%BE%E7%81%B5%E5%9B%BE)进行动画的.
+
+![thanos_snap](./images/thanos.png)
+
+当然这个项目的实现是不是谷歌的实现我也不知道，不过大同小异：
+```js
+    interval = setInterval(() => {
+        if (count < 48) {
+            let left = count * 80
+            canvas.style.background = "white"
+            ctx.clearRect(0, 0, 80, 80)
+            ctx.drawImage(img, left, 0, 80, 80, 0, 0, 80, 80)
+            count += 1
+        } else {
+            clearInterval(interval)
+            cb()
+        }
+    }, 50)
+```
+css里已经把手套的图片设置好可叠加，于是只要在手套上创建一个canvas，然后设置一个interval从左到右截取`sprite`图的一个矩形部分，在canvas内绘制即可。
+
 ## 消失动画原理
+
+Google的实现很巧妙，它将需要沙化消失内容的html通过`html2canvas`渲染成canvas，然后将其转换为图片后的每一个像素点随机地分配到32块canvas中，最后对每块画布进行随机地移动和旋转即达到了沙化消失的效果。
+
+在`init()`里，手套snap后对每个结果框进行了`createCanvas`，每个`createCanvas`先是将html转换为canvas，然后调用了一次`NewFrame`即，分割为32个小canvas进行沙化。
+
+```js
+function NewFrame(canvas, count = 32) {
+    let {
+        width,
+        height
+    } = canvas;
+    let ctx = canvas.getContext("2d");
+    let originalData = ctx.getImageData(0, 0, width, height);
+    let imageDatas = [...Array(count)].map((_, i) => ctx.createImageData(width, height))
+
+    for (let x = 0; x < width; ++x)
+        for (let y = 0; y < height; ++y) {
+            for (let i = 0; i < repetition; ++i) {
+                let dataIndex = Math.floor(count * (Math.random() + 2 * x / width) / 3);
+                let pixelIndex = (y * width + x) * 4;
+                for (let offset = 0; offset < 4; ++offset) 
+                imageDatas[dataIndex].data[pixelIndex + offset] = originalData.data[pixelIndex + offset];
+            }
+        }
+    return imageDatas.map(data => {
+        let clone = canvas.cloneNode(true);
+        clone.getContext("2d").putImageData(data, 0, 0);
+        return clone;
+    });
+}
+```
+
+每个小canvas沙化：
+```js
+    frames.forEach((frame, i) => {
+        let randomRadian = 2 * Math.PI * (Math.random() - 0.5)
+        frame.style.transform = `rotate(${15 * (Math.random() - 0.5)}deg) translate(${60 * Math.cos(randomRadian)}px, ${30 * Math.sin(randomRadian)}px) rotate(${15 * (Math.random() - 0.5)}deg)`;
+        frame.style.opacity = 0;
+        //frame就是每个小canvas，给它设置好随机旋转的transform，最终渐变为透明
+
+        //后略
+```
+
 ## Trump snap demo
+
+可以查看我的仓库：https://github.com/RoyalAliceAcademyOfSciences/thanos-trump
+
+## Reference
+
+https://juejin.im/post/5cc652adf265da03540316e3
+https://github.com/jeiDev/animation-thanos-of-google
