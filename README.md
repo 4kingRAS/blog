@@ -9,6 +9,7 @@
 
 ---
 ### 2019年
+* [2019.07.29周记](./2019/2019-07-29-memo.md)
 * [如何以弱胜强](./2019/giant-killing.md)
 * [Google thanos手套彩蛋效果](./2019/google-thanos-gauntlet.md)
 * [Mac安装intel power gadget后无法开机](./2019/mac-cant-reboot-driver.md)
