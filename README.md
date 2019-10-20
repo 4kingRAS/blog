@@ -9,7 +9,7 @@
 
 ---
 ### 2019年
-* [2020秋招小结](2019-10-20-2020recruitment.md)
+* [2020秋招小结](./2019/2019-10-20-2020recruitment.md)
 * [2019.07.29周记](./2019/2019-07-29-memo.md)
 * [如何以弱胜强](./2019/giant-killing.md)
 * [Google thanos手套彩蛋效果](./2019/google-thanos-gauntlet.md)
