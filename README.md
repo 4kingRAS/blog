@@ -8,6 +8,9 @@
 * [About me](https://4kingras.github.io/4kings%20r%C3%A9sum%C3%A9.html)
 
 ---
+### 2020年
+* [一些编译openwrt的经验](./2020/2020-01-21-openwrt-compile-problems.md)
+
 ### 2019年
 * [LeetCode 寻找两个有序数组的中位数](./2019/2019-12-05-find-midnum.md)
 * [2020秋招小结](./2019/2019-10-20-2020recruitment.md)
