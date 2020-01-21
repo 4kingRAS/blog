@@ -1,6 +1,6 @@
 # 一些编译openwrt的经验
 
-毕设要给两个AR9331设备开发ipk，两个设备上都是古老的openwrt，一个是`barrier_breaker`,一个是`chaos_calmer`。而我本地下载的openwrt源码是最新的稳定版，好不容易编译成功，编译的ipk部署时却总是报错`incompatible architecture`. 搜集了很多资料，终于勉强解决，记录于下。
+一个项目要给两个AR9331设备开发ipk，两个设备上都是古老的openwrt，一个是`barrier_breaker`,一个是`chaos_calmer`。而我本地下载的openwrt源码是最新的稳定版，好不容易编译成功，编译的ipk部署时却总是报错`incompatible architecture`. 搜集了很多资料，终于勉强解决，记录于下。
 
 ## 正常编译
 
