@@ -9,6 +9,8 @@
 
 ---
 ### 2020年
+* [工作小结](2020-09-11-work-summary.md)
+* [socket遇坑小结](2020-09-11-socket-java-summary.md)
 * [一些编译openwrt的经验](./2020/2020-01-21-openwrt-compile-problems.md)
 
 ### 2019年
