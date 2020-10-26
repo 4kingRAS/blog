@@ -9,7 +9,9 @@
 
 ---
 ### 2020年
+* [各种Java对象所占的内存空间](./2020/2020-10-19-the-memory-layout-of-java-object.md)
 * [没有路由的恶劣情况实现端口转发](./2020/2020-10-13-no-route.md)
+* [Semaphore 笔记](./2020/2020-09-22-semaphore.md)
 * [工作小结](./2020/2020-09-11-work-summary.md)
 * [socket遇坑小结](./2020/2020-09-11-socket-java-summary.md)
 * [一些编译openwrt的经验](./2020/2020-01-21-openwrt-compile-problems.md)
