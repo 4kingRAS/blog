@@ -1,47 +1,32 @@
+socket 心跳机制
+---
+一般有两种方法，应用层自己实现心跳，另一种利用TCP的`KeepAlive`
+
+`KeepAlive`的定时是7200秒，很蠢，所以一般都是应用层自己实现。
+
+思路很简单：一般是服务端listen， 客户端连上， 因为网络等问题断开。此时服务端的socket是不知道的，所以还在不断重传或阻塞在`recv`。所以需要一个定时任务，超过某个时间服务端收不到这个包就默认客户端已经断网。
+
+
 
 ```java
-    public void run() {
-        ServerSocket serverSocket = null;
-        try {
-            boxService = BeanContext.getApplicationContext().getBean(BoxService.class);
-            serverSocket = new ServerSocket(port);
-            TboxContext tboxContext = TboxContext.getInstance();
-
-            while (true) {
-                Socket socket = serverSocket.accept();
-                logger.info("Rcv Connection established : " + socket.getRemoteSocketAddress());
-                tboxContext.setOnline(true);
-                tboxContext.setTboxRemoteAddress(socket.getRemoteSocketAddress().toString());
-                tboxContext.setSocket(socket);
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                        socket.getInputStream(), StandardCharsets.UTF_8));
-
-                char[] buffer = new char[BUFFER_SIZE];
-
-                while (bufferedReader.read(buffer) != -1) {
-                    JSONObject jsonObject = JSONObject.parseObject(String.copyValueOf(buffer));
-                    //json对象转Map
-                    Map<String,Object> map = (Map<String,Object>)jsonObject;
-                    Box box = new Box();
-                    box.setContentType((String) map.get("contentType"));
-                    box.setValue(jsonObject.toJSONString());
-                    boxService.insert(box);
-
-                    Arrays.fill(buffer, '\0');
-                    if (!isConnected(socket)) {
-                        TboxContext.getInstance().setOnline(false);
-                        break;
-                    }
-                }
-                logger.info("Rcv Connection closed : " + socket.getRemoteSocketAddress());
-                socket.close();
-                bufferedReader.close();
-                tboxContext.setSocket(null);
-                tboxContext.setTboxRemoteAddress("");
-                tboxContext.setOnline(false);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+public class MyCallable implements Callable {
+    private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+    private long timeDelay = 5;
+    public void excute(){
+        scheduledExecutorService.submit(this);
+    }
+    public void stop(){
+        scheduledExecutorService.shutdown();
+    }
+    public void setTimeDelay(long timeDelay){
+        this.timeDelay = timeDelay;
+    }
+    @Override
+    public Object call() throws Exception {
+        //一些业务逻辑，也就是你要循环执行的代码
+        System.out.println("my call Executed!");
+        scheduledExecutorService.schedule(this, timeDelay, TimeUnit.SECONDS);
+        return "Called!";
+    }
+}  
 ```

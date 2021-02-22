@@ -9,6 +9,7 @@
 
 ---
 ### 2020年
+* [[转]10个简单步骤，完全理解SQL](./2020/2020-11-02-sql-10-step-repost.md)
 * [各种Java对象所占的内存空间](./2020/2020-10-19-the-memory-layout-of-java-object.md)
 * [没有路由的恶劣情况实现端口转发](./2020/2020-10-13-no-route.md)
 * [Semaphore 笔记](./2020/2020-09-22-semaphore.md)
